@@ -1,5 +1,54 @@
-Metric,Value
-Quantidade de Chamados Criados nos Últimos 7 Dias,4
-Quantidade de Chamados Fechados,4
-Quantidade de Chamados Pendentes,0
-Quantidade de Chamados Em Atendimento (Atribuído),0
+ID,Nome
+2303240001,Solicito a Instalação de Impressora  - 	teste
+2303240002,Solicitação de AO VIVO - JM2 -  Ronayr Ferreira
+2303280001,Alteração de local do Ramal de MESA OPEC para MESA MARKETING
+2303280002,Problema com Ramal Ismael / Neres Pinto - Telefone mudo
+2303280003,Problema com Ramal Ednólia - Telefone não toca
+2303290001,Entrevista via Skype - ##answer_41## - ##answer_49##
+2303290002,Entrevista via Skype -  JM2 - TESTE TI NOME_ENTREVISTADO
+2303290003,Problema com Ramal Cirlene - Não completa Ligação
+2303300001,TOTVS -  Outros - SISTEMA DE RH
+2303310001,Problema com Ramal Janaina - Telefone mudo
+2304010001,REDEFINIR SENHA DO USUÁRIO 
+2304030002,Usuário Prestador Globo - Solução de Problemas - 
+2304030003,Problema com Ramal Máriton - Telefone mudo
+2304040001,Requisição de periferico - Mouse - Marketing
+2304040002,Solicitação de AO VIVO - JM1 -  Janaína Bordalo
+2304050001,Solução de Problemas - Backstage
+2304050002,Erro de login ao acessar o Colaborativo
+2304110001,Problema com Ramal Marco Aurélio - Telefone mudo
+2304110002,CFTV - Solicitação de Imagens
+2304110003,CFTV - Solicitação de Imagens
+2304120001,Manutenção Técnica - dois cabos de vídeo  - cabo de vídeo com problemas
+2304120002,Requisição de periferico - Teclado - RH
+2304120004,Email - Criar novo email
+2304120005,Problema  - Mouse  - Redação TV
+2304130001,Acesso a Pasta - transito - transito
+2304130002,Problemas Catracas
+2304130003,Problema com Ramal Máriton - Telefone com chiado
+2304130005,Problema com Ramal Rose - Telefone não toca
+2304130007,Cabo da caixa do estúdio 1
+2304140001,Usuário Prestador Globo - Outro - Acesso ao Colaborativo
+2304140002,Redação TV - Redação TV
+2304140003,Usuário de Rede - Criar novo usuário
+2304140004,Email - Criar novo email
+2304140005,Relogio de ponto FM - sem papel
+2304140006,Entrevista via Skype -  JM2 - Francisco Polary
+2304170001,Email - Redefinir senha
+2304170002,Excel - Não está abrindo o arquivo
+2304170003,SIGEP - Cobrança - Não estava funcionando
+2304170004,RELOGIO DE PONTO  - RESERVA TV
+2304170005,Problema  - Mouse  - Rádio FM
+2304190001,TOTVS -  Outros - Redefinir senha
+2304190002,Acesso a Pasta - Pasta Teste - Servidor Teste
+2304190003,Acesso a Pasta - Pasta teste - Montreal
+2304190004,Problema Impressora  -  
+2304190005,CRIAÇÃO WhatsApp BUSSINESS 
+2304190006,Email - Criar novo email
+2304190007,Email - Criar novo email
+2304190008,Email - Criar novo email
+2304200001,Requisição de periferico - Teclado - Redação TV
+2304200002,Ar-condicionado - Produção AM - Não está gelando 
+2304200003,Problema Impressora  -  
+
+Total de Tickets,51

@@ -5,9 +5,19 @@ import datetime
 import csv
 import time
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+api_key_path = os.getenv('ANALYCTS_GMAIL_API_KEY_PATH')
+
+# Agora você pode usar o api_key_path para acessar o arquivo sensível
+
+
 # Definir os escopos e o arquivo da conta de serviço
 SCOPES = ['https://www.googleapis.com/auth/admin.directory.user.readonly', 'https://www.googleapis.com/auth/gmail.readonly']
-SERVICE_ACCOUNT_FILE = 'analycts-gmail-api-f45bf723f256.json'
+SERVICE_ACCOUNT_FILE = api_key_path
 DELEGATED_ADMIN_EMAIL = 'victor.moura@mirante.com.br'
 
 def authenticate_directory_api():
