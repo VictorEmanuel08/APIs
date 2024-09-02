@@ -1,5 +1,6 @@
 import requests
 import csv
+from datetime import datetime, timedelta
 
 # Configurações da API
 url_base = "http://189.17.228.135:3060/glpi/apirest.php"
@@ -24,12 +25,18 @@ if response.status_code == 200:
     # Agora use o session_token para outras requisições
     headers['Session-Token'] = session_token
     
-    # Endpoint para listar os tickets
+    # Calcula a data de 7 dias atrás
+    seven_days_ago = datetime.now() - timedelta(days=7)
+    seven_days_ago_str = seven_days_ago.strftime('%Y-%m-%d %H:%M:%S')
+
+    # Endpoint para listar os tickets com filtro por data
     endpoint = f"{url_base}/Ticket"
     
-    # Parâmetros da requisição
+    # Parâmetros da requisição para filtrar tickets dos últimos 7 dias
     params = {
-        "range": "0-50"  # Ajuste o intervalo conforme necessário
+        "criteria[0][field]": "date_creation",
+        "criteria[0][operator]": "greaterthan",
+        "criteria[0][value]": seven_days_ago_str
     }
     
     # Fazendo a requisição
@@ -37,18 +44,24 @@ if response.status_code == 200:
     
     # Verificando o status da resposta
     if response.status_code == 206 or response.status_code == 200:
+        # Imprime a resposta completa para depuração
+        print("Resposta da API:")
         tickets = response.json()
+        print(tickets)  # Imprimir a resposta completa para verificar o formato
         
-        # Salvando os nomes e a quantidade total em um CSV
-        with open('glpi_stats_summary.csv', mode='w', newline='') as file:
+        # Filtrando tickets criados nos últimos 7 dias
+        filtered_tickets = [ticket for ticket in tickets if datetime.strptime(ticket['date_creation'], '%Y-%m-%d %H:%M:%S') >= seven_days_ago]
+        
+        # Salvando as datas de criação e o total de tickets em um CSV
+        with open('glpi_stats_summary.csv', mode='w', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
-            writer.writerow(['ID', 'Nome'])
-            for ticket in tickets:
-                writer.writerow([ticket['id'], ticket['name']])
+            writer.writerow(['ID', 'Data de Criação'])
+            for ticket in filtered_tickets:
+                writer.writerow([ticket['id'], ticket['date_creation']])
             
             # Escreve o total de tickets no final do arquivo
             writer.writerow([])
-            writer.writerow(['Total de Tickets', len(tickets)])
+            writer.writerow(['Total de Tickets nos últimos 7 dias', len(filtered_tickets)])
         
         print("Dados salvos em glpi_stats_summary.csv")
     else:

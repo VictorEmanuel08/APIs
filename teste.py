@@ -1,4 +1,5 @@
 import requests
+import csv
 
 # Configurações da API
 url_base = "http://189.17.228.135:3060/glpi/apirest.php"
@@ -19,7 +20,6 @@ response = requests.get(init_session_endpoint, headers=headers)
 # Verificar se a sessão foi iniciada com sucesso
 if response.status_code == 200:
     session_token = response.json().get('session_token')
-    # print(f"Session token: {session_token}")
     
     # Agora use o session_token para outras requisições
     headers['Session-Token'] = session_token
@@ -29,7 +29,7 @@ if response.status_code == 200:
     
     # Parâmetros da requisição
     params = {
-        "range": "0-50"  # Ajuste o intervalo conforme necessário
+        "range": "0-50"  # 51 últimos tickets
     }
     
     # Fazendo a requisição
@@ -38,8 +38,19 @@ if response.status_code == 200:
     # Verificando o status da resposta
     if response.status_code == 206 or response.status_code == 200:
         tickets = response.json()
-        for ticket in tickets:
-            print(f"ID: {ticket['id']} - Nome: {ticket['name']}")
+        
+        # Salvando os nomes e a quantidade total em um CSV
+        with open('glpi_stats_summary.csv', mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(['ID', 'Nome'])
+            for ticket in tickets:
+                writer.writerow([ticket['id'], ticket['name']])
+            
+            # Escreve o total de tickets no final do arquivo
+            writer.writerow([])
+            writer.writerow(['Total de Tickets', len(tickets)])
+        
+        print("Dados salvos em glpi_stats_summary.csv")
     else:
         print(f"Erro: {response.status_code} - {response.text}")
     
