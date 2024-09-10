@@ -1,7 +1,3 @@
-# Tecnologia > Serviço > NOC > Suporte de TI > Outras Solicitações
-# Tecnologia > Serviço > Infraestrutura > Telefonia
-# Tecnologia > Cross > Acesso
-
 import requests
 import csv
 from datetime import datetime, timedelta
@@ -52,7 +48,6 @@ def get_all_recent_tickets(session_token):
         'forcedisplay[1]': '1',  # Título do ticket
         'forcedisplay[2]': '12',  # Status do ticket
         'forcedisplay[3]': '15',  # Data de abertura do ticket
-        'forcedisplay[4]': '7',  # Categoria do ticket
         'range': '0-999999'  # Tentar obter todos os tickets
     }
     
@@ -80,7 +75,6 @@ def save_data_to_files(tickets):
         ticket_info = {
             'Title': ticket.get('1', 'Nome não encontrado'),
             'Status': ticket.get('12', 'Status não encontrado'),
-            'Category': ticket.get('7', 'Categoria não encontrada'),  # Adicionando a categoria
             'Open Date': ticket.get('15', 'Data de abertura não encontrada')
         }
         filtered_tickets.append(ticket_info)
@@ -98,7 +92,7 @@ def save_data_to_files(tickets):
 
     # Salvar tickets em CSV
     with open(summary_file, 'w', newline='', encoding='utf-8') as csv_file:
-        fieldnames = ['Title', 'Status', 'Category', 'Open Date']  # Incluindo a categoria no CSV
+        fieldnames = ['Title', 'Status', 'Open Date']
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
         writer.writeheader()
