@@ -1,7 +1,2 @@
-Metric,Value
-Total Sent Emails,8542
-Total Received Emails,30182
-Total Spam Emails,11976
-Total Unread Emails,20679
-Email with Most Sent Emails,anamaria@mirante.com.br
-Email with Most Received Emails,abrindooverbo@mirante.com.br
+Total Sent Emails,Total Received Emails,Total Spam Emails,Total Unread Emails,Email with Most Sent Emails,Email with Most Received Emails
+8509,29736,0,19592,anamaria@mirante.com.br,adimael.barbosa@mirante.com.br

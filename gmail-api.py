@@ -15,10 +15,14 @@ SCOPES = ['https://www.googleapis.com/auth/admin.directory.user.readonly', 'http
 SERVICE_ACCOUNT_FILE = api_key_path
 DELEGATED_ADMIN_EMAIL = 'victor.moura@mirante.com.br'
 
-# Criar a pasta "gmail-api" se não existir
-output_folder = 'gmail-api'
-if not os.path.exists(output_folder):
-    os.makedirs(output_folder)
+# Diretórios de saída
+local_output_folder = 'gmail-api'
+network_output_folder = r'\\munique\Bonn\Fontes de Dados\APIs\gmail-api'
+
+# Criar pastas locais e de rede, se não existirem
+for folder in [local_output_folder, network_output_folder]:
+    if not os.path.exists(folder):
+        os.makedirs(folder)
 
 def authenticate_directory_api():
     """Autentica e retorna o serviço da API Directory."""
@@ -67,14 +71,26 @@ def get_all_users(service):
     
     return users
 
+def save_csv_to_multiple_locations(filename, fieldnames, data):
+    """Salva o arquivo CSV em múltiplos diretórios."""
+    for folder in [local_output_folder, network_output_folder]:
+        file_path = os.path.join(folder, filename)
+        with open(file_path, 'w', newline='') as csvfile:
+            csv_writer = csv.writer(csvfile)
+            csv_writer.writerow(fieldnames)
+            csv_writer.writerow(data)
+        print(f"Arquivo CSV salvo em {file_path}")
+
 def generate_monthly_reports(users, service, credentials, year):
     """Gera relatórios mensais de e-mail para cada mês do ano até o mês atual, ignorando os já gerados."""
     current_month = datetime.datetime.now().month
     for month in range(1, current_month + 1):
-        output_file = os.path.join(output_folder, f'{year}-{month:02d}.csv')
+        output_file = f'{year}-{month:02d}.csv'
         
-        # Ignorar o arquivo se ele já existe e não é o mês atual
-        if os.path.exists(output_file) and month != current_month:
+        # Ignorar o arquivo se ele já existe em ambos os diretórios e não é o mês atual
+        local_file_path = os.path.join(local_output_folder, output_file)
+        network_file_path = os.path.join(network_output_folder, output_file)
+        if os.path.exists(local_file_path) and os.path.exists(network_file_path) and month != current_month:
             print(f"Relatório para {year}-{month:02d} já existe. Ignorando...")
             continue
         
@@ -110,16 +126,10 @@ def generate_monthly_reports(users, service, credentials, year):
                         max_received_email = user_email
                         max_received_count = received_count
 
-        # Escrever os dados no arquivo CSV
-        with open(output_file, 'w', newline='') as csvfile:
-            csv_writer = csv.writer(csvfile)
-            csv_writer.writerow(['Metric', 'Value'])
-            csv_writer.writerow(['Total Sent Emails', total_sent])
-            csv_writer.writerow(['Total Received Emails', total_received])
-            csv_writer.writerow(['Total Spam Emails', total_spam])
-            csv_writer.writerow(['Total Unread Emails', total_unread])
-            csv_writer.writerow(['Email with Most Sent Emails', max_sent_email])
-            csv_writer.writerow(['Email with Most Received Emails', max_received_email])
+        # Salvar os dados em múltiplos locais
+        fieldnames = ['Total Sent Emails', 'Total Received Emails', 'Total Spam Emails', 'Total Unread Emails', 'Email with Most Sent Emails', 'Email with Most Received Emails']
+        data = [total_sent, total_received, total_spam, total_unread, max_sent_email, max_received_email]
+        save_csv_to_multiple_locations(output_file, fieldnames, data)
 
 def generate_last_7_days_summary(users, credentials):
     """Gera um resumo dos últimos 7 dias e salva em last_7_days_summary.csv."""
@@ -164,20 +174,11 @@ def generate_last_7_days_summary(users, credentials):
         else:
             active_users += 1
 
-    # Escrever os dados no arquivo last_7_days_summary.csv
-    summary_file = os.path.join(output_folder, 'last_7_days_summary.csv')
-    with open(summary_file, 'w', newline='') as csvfile:
-        csv_writer = csv.writer(csvfile)
-        csv_writer.writerow(['Metric', 'Value'])
-        csv_writer.writerow(['Total Sent Emails', total_sent])
-        csv_writer.writerow(['Total Received Emails', total_received])
-        csv_writer.writerow(['Total Spam Emails', total_spam])
-        csv_writer.writerow(['Total Unread Emails', total_unread])
-        csv_writer.writerow(['Email with Most Sent Emails', max_sent_email])
-        csv_writer.writerow(['Email with Most Received Emails', max_received_email])
-        csv_writer.writerow(['Number of Users', len(users)])
-        csv_writer.writerow(['Number of Active Users', active_users])
-        csv_writer.writerow(['Number of Suspended Users', suspended_users])
+    # Salvar os dados dos últimos 7 dias em múltiplos locais
+    summary_file = 'last_7_days_summary.csv'
+    fieldnames = ['Total Sent Emails', 'Total Received Emails', 'Total Spam Emails', 'Total Unread Emails', 'Email with Most Sent Emails', 'Email with Most Received Emails', 'Number of Users', 'Number of Active Users', 'Number of Suspended Users']
+    data = [total_sent, total_received, total_spam, total_unread, max_sent_email, max_received_email, len(users), active_users, suspended_users]
+    save_csv_to_multiple_locations(summary_file, fieldnames, data)
 
 def main():
     start_time = time.time()

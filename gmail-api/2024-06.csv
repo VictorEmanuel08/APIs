@@ -1,7 +1,2 @@
-Metric,Value
-Total Sent Emails,8185
-Total Received Emails,28673
-Total Spam Emails,0
-Total Unread Emails,18529
-Email with Most Sent Emails,anamelia.figueiredo@mirante.com.br
-Email with Most Received Emails,abrindooverbo@mirante.com.br
+Total Sent Emails,Total Received Emails,Total Spam Emails,Total Unread Emails,Email with Most Sent Emails,Email with Most Received Emails
+8162,28414,0,18231,anamelia.figueiredo@mirante.com.br,abrindooverbo@mirante.com.br
